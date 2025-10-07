@@ -21,7 +21,7 @@ function App() {
         <div className="button-container">
           <button className="btn btn-01">Busca Binária</button>
           <button className="btn btn-02">Busca Linear</button>
-          <button className="btn btn-03">Outra Busca</button>         
+          <button className="btn btn-03">Outra Buscaaaaa</button>         
         </div>
 
         <div className="logos">
