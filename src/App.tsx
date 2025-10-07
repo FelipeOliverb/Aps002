@@ -1,11 +1,21 @@
 
 import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import fundo from './assets/imagens/fundo.mp4'
 import './App.css'
 
 function App() {
   return (
-    <>
+      <>
+       <div className="video-background-container">
+        <video
+          className="video-background"
+          src={fundo}
+          autoPlay
+          loop
+          muted
+        />
+        <div className="video-overlay"></div>
+      </div>
        <div className="app">
       <header className="header">
         <h1>APS</h1>
@@ -20,8 +30,8 @@ function App() {
 
         <div className="button-container">
           <button className="btn btn-01">Busca Binária</button>
-          <button className="btn btn-02">Busca Lin</button>
-          <button className="btn btn-03">Outra Buscaaaaa</button>         
+          <button className="btn btn-02">Busca Linear</button>
+          <button className="btn btn-03">Outra Busca</button>         
         </div>
 
         <div className="logos">
