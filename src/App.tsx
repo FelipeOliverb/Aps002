@@ -33,6 +33,9 @@ function App() {
           <button className="btn btn-02">Busca Linear</button>
           <button className="btn btn-03">Outra Busca</button>         
         </div>
+        <div className="Cronometro">
+          <p>Cronometro: 0s</p>
+        </div>
 
         <div className="logos">
           <img src={reactLogo} className="logo react" alt="React logo" />
