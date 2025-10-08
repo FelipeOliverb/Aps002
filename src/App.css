@@ -31,6 +31,7 @@
 
 .button-container {
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
@@ -53,6 +54,22 @@
   background-color: #2e3aa5;
 }
 
+.BancoDeDados {
+  margin-top: 30px;
+}
+
+.BancoDeDados .btn-bd {
+  background-color: #0fb0e0;
+  text-decoration: none;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.BancoDeDados .btn-bd:hover {
+  background-color: #0a7c9e;
+  transform: translateY(-3px);
+}
+
 .footer {
   margin-top: auto;
   font-size: 0.9rem;
@@ -60,8 +77,24 @@
 }
 
 .logo {
-    height: 80px;
-    margin-top: 20px;
+    height: 100px;
+    margin-top: 10px;
+    animation: float 3s ease-in-out infinite;
+    transition: 0.3s;
+}
+
+.logo:hover {
+    filter: drop-shadow(0 0 5px rgb(255, 255, 255));
+    transition: 0.3s ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .search-container {
@@ -105,6 +138,11 @@
 .Cronometro {
   margin-top: 20px;
   font-size: 1rem;
+  font-weight: bold;
+}
+
+.Cronometro span {
+  color: cyan;
   font-weight: bold;
 }
 
