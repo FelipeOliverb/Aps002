@@ -6,8 +6,7 @@
   font-family: 'Poppins', sans-serif;
   text-align: center;
   padding: 20px;
-}
-
+} 
 
 .header-logo-text {
   display: flex;
@@ -35,69 +34,48 @@
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-
+/* MAIN - Upload e Banco de Dados lado a lado */
 .main-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 20px;
-  gap: 20px;
+  gap: 20px;  
+} 
+
+.main-left, .main-right {
+  flex: 1;
 }
 
 .main-left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 50px;
+  padding-left: 10%;
+  padding-top: 5%;
 }
 
 .main-right {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 50px;
-}
-
-
-.btn {
-  border: none;
-  border-radius: 8px;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-  background-color: #4345dd;
-  color: white;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  transform: translateY(-3px);
-  background-color: #2e3aa5;
-}
-
-
-
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-right: 10%;
+  padding-top: 0%;
+} 
 
 .upload-container-wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  padding-left: 100px;
-}
+} 
 
 .upload-container {
   text-align: center;
-
-}
+} 
 
 .upload-container h3 {
   margin-bottom: 10px;
@@ -118,27 +96,20 @@
   transform: translateY(-3px);
   background-color: #2e3aa5;
 }
-
-.upload-container img {
-  max-width: 300px;
-  border-radius: 10px;
-  margin-top: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
+  
 .preview-buttons {
   margin-top: 10px;
   display: flex;
   gap: 10px;
   justify-content: center;
-} 
+}
+
 .ordenacao {
   margin-top: 10px;
   display: flex;
-  justify-content: flex-start;
-  padding-left: 30%;
+  justify-content: center;
   
-}
-
+} 
 
 .Cronometro {
   margin-top: 20px;
@@ -147,19 +118,18 @@
   display: flex;
   justify-content: left;
   gap: 15px;
-  padding-left: 10% ;
-}
+} 
 
 .Cronometro span {
   color: cyan;
+  margin-left: 10px;
 }
 
 .Cronometro-item {
   display: flex;
   justify-content: space-between;
   margin: 5px 0;
-}
-
+} 
 
 .footer {
   margin-top: auto;
@@ -193,81 +163,72 @@
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.bd-page h1 {
-  font-size: 3rem;
-  margin-bottom: 2rem;
-}
 
-.bd-list {
-  list-style: none;
-  padding: 0;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.bd-list-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  margin-bottom: 1rem;
+.bd-container {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
   background-color: rgba(67, 69, 221, 0.3);
   border-radius: 12px;
+  margin: 20px 0;
   transition: 0.3s;
+  text-decoration: none;
 }
 
-.bd-list-item:hover {
+.bd-container:hover {
   background-color: rgba(67, 69, 221, 0.6);
   transform: translateY(-2px);
 }
 
-.bd-item-nome {
-  font-weight: bold;
-  text-align: left;
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #4345dd;
+  color: white;
+  transition: 0.3s;
 }
 
-.bd-item-tamanho {
-  text-align: right;
+.btn:hover {
+  transform: translateY(-3px);
+  background-color: #2e3aa5;
 }
 
-
+/* Responsividade */
 @media (max-width: 800px) {
   .main-top {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
 
-  .main-right {
-    align-items: flex-start;
+  .main-left, .main-right {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
   }
-}
 
-@media (max-width: 800px) {
+  .upload-container img {
+    max-width: 80%;
+  }
+
+  .bd-container {
+    max-width: 90%;
+    height: 150px;
+  }
+
   .header-logo-text {
     flex-direction: column;
     align-items: center;
   }
 
-  .header-logo {
-    margin-bottom: 10px;
-  }
-}
-
-@media (max-width: 800px) {
-  .ordenacao {
+  .ordenacao {  
     justify-content: center; 
-    padding-left: 0;
-  }
-
-  .upload-container-wrapper {
-    align-items: center;
-    padding-left: 0;
-  }
-  .Cronometro {
-    justify-content: center;
-    padding-left: 0;
   } 
-  .upload-container img {
-    max-width: 80%;
-  }
-  
+
+  .Cronometro { 
+    justify-content: center;  
+  } 
 }

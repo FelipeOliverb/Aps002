@@ -17,9 +17,9 @@ function Home() {
   }
 
   function confirmarImagem() {
-    alert("Imagem confirmada!");
-    // Aqui você pode adicionar lógica de envio ao servidor ou banco de dados
-    setImagem(null); 
+    alert("Imagem salva");
+    //código para enviar para o banco de dados aqui
+    setImagem(null);
   }
 
   return (
@@ -30,7 +30,6 @@ function Home() {
       </div>
 
       <div className="app">
-        
         <header className="header">
           <div className="header-logo-text">
             <img src={logo} className="logo" alt="Logo" />
@@ -39,21 +38,12 @@ function Home() {
         </header>
 
         <main className="main">
-
-          
-          <div className="main-top">
-
-            
+          <div className="main-top">           
             <div className="main-left">
               <div className="upload-container-wrapper">
                 <div className="upload-container">
                   <h3>Adicionar Imagem:</h3>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImagemSelecionada}
-                    className="btn"
-                  />
+                  <input type="file" accept="image/*" onChange={handleImagemSelecionada} />
 
                   {imagem && (
                     <div style={{ marginTop: "20px" }}>
@@ -68,7 +58,6 @@ function Home() {
                           boxShadow: "0 0 10px rgba(0,0,0,0.5)"
                         }}
                       />
-
                       <div className="preview-buttons">
                         <button className="btn btn-cancel" onClick={() => setImagem(null)}>Cancelar</button>
                         <button className="btn btn-confirm" onClick={confirmarImagem}>Confirmar</button>
@@ -77,30 +66,24 @@ function Home() {
                   )}
                 </div>
 
-                
                 <div className="ordenacao">
                   <button className="btn btn-ordena">Ordenar Imagens</button>
                 </div>
+              </div>
+              <div className="Cronometro">
+                <p className="Cronometro-item">Ordenação1 <span>0s</span></p>
+                <p className="Cronometro-item">Ordenação2 <span>0s</span></p>
+                <p className="Cronometro-item">Ordenação3 <span>0s</span></p>
               </div>
             </div>
 
             
             <div className="main-right">
-              <div className="BancoDeDados">
-                <Link to="/bd" className="btn btn-bd">Consultar Banco de Dados</Link>
-                
-              </div>
+              <Link to="/bd" className="bd-container"></Link>
             </div>
-
-          </div>
+          </div>  
 
           
-          <div className="Cronometro">
-            <p className="Cronometro-item">Ordenação1 <span>0s</span></p>
-            <p className="Cronometro-item">Ordenação2 <span>0s</span></p>
-            <p className="Cronometro-item">Ordenação3 <span>0s</span></p>
-          </div>
-
         </main>
 
         <footer className="footer">
