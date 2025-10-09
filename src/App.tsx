@@ -6,7 +6,7 @@ import BD from './pages/bd';
 import './App.css';
 
 function Home() {
-  
+
   const [imagem, setImagem] = useState<string | null>(null);
 
   function handleImagemSelecionada(event: React.ChangeEvent<HTMLInputElement>) {
@@ -25,21 +25,17 @@ function Home() {
       </div>
 
       <div className="app">
+
         <header className="header">
-          <h1>APS</h1>
-          <p>O que deseja fazer?</p>
+          <div className="header-logo-text">
+            <img src={logo} className="logo" alt="Logo" />
+            <h1>APS</h1>
+          </div>
         </header>
+        
 
         <main className="main">
-          {/*<div className="search-container">
-            <input type="text" placeholder="Digite o nome do arquivo" />
-          </div>
-
-          <div className="button-container">
-            <button className="btn btn-01">Busca Binária</button>
-            <button className="btn btn-02">Busca Linear</button>
-            <button className="btn btn-03">Outra Busca</button>
-          </div>*/}
+       
 
           <div className="BancoDeDados">
             <Link to="/bd" className="btn btn-bd">Consultar Banco de Dados</Link>
@@ -54,8 +50,7 @@ function Home() {
               onChange={handleImagemSelecionada}
               className="btn"
             />
-
-            
+           
             {imagem && (
               <div style={{ marginTop: "20px" }}>
                 <h4>Pré-visualização:</h4>
@@ -78,14 +73,12 @@ function Home() {
           </div>
 
           <div className="Cronometro">
-            <p className="Cronometro-item">Busca tal <span>0s</span></p>
-            <p className="Cronometro-item">Busca tal <span>0s</span></p>
-            <p className="Cronometro-item">Busca tal <span>0s</span></p>
+            <p className="Cronometro-item">Ordenação1 <span>0s</span></p>
+            <p className="Cronometro-item">Ordenação2 <span>0s</span></p>
+            <p className="Cronometro-item">Ordenação3 <span>0s</span></p>
           </div>
 
-          <div className="logos">
-            <img src={logo} className="logo react" alt="React logo" />
-          </div>
+          
         </main>
 
         <footer className="footer">
