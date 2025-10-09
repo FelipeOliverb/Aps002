@@ -1,0 +1,49 @@
+.bd-page {
+  padding: 2rem;
+  min-height: 100vh;
+  color: white;
+  text-align: center;
+}
+
+.bd-page h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.bd-list {
+  list-style: none;
+  padding: 0;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.bd-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  background-color: rgba(67, 69, 221, 0.3);
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.bd-list-item:hover {
+  background-color: rgba(67, 69, 221, 0.6);
+  transform: translateY(-2px);
+}
+
+.bd-item-nome {
+  font-weight: bold;
+  flex: 2;
+  text-align: left;
+}
+
+.bd-item-tipo {
+  flex: 1;
+}
+
+.bd-item-tamanho {
+  flex: 1;
+  text-align: right;
+}
