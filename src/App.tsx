@@ -112,8 +112,11 @@ function App() {
         <main className="main">
           <div className="main-top">
             <div className="main-left">
+              
               <div className="upload-container-wrapper">
+                
                 <div className="upload-container">
+                  
                   <h3>Adicionar Imagem:</h3>
                   <input type="file" accept="image/*" onChange={handleImagemSelecionada} />
                   <input
@@ -123,7 +126,11 @@ function App() {
                     onChange={(e) => setNomeInput(e.target.value)}
                     style={{ marginTop: "10px", padding: "5px", borderRadius: "5px" }}
                   />
-
+                  <div className="Cronometro">
+                    <p className="Cronometro-item">Ordenação 1 <span>0s</span></p>
+                    <p className="Cronometro-item">Ordenação 2 <span>0s</span></p>
+                    <p className="Cronometro-item">Ordenação 3 <span>0s</span></p>
+                  </div>
                   {preview && (
                     <div style={{ marginTop: "20px" }}>
                       <h4>Pré-visualização:</h4>
