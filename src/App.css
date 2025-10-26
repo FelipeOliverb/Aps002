@@ -6,7 +6,7 @@
   font-family: 'Poppins', sans-serif;
   text-align: center;
   padding: 20px;
-} 
+}
 
 .header-logo-text {
   display: flex;
@@ -38,7 +38,6 @@
   50% { transform: translateY(-10px); }
 }
 
-/* MAIN - Upload e Banco de Dados lado a lado */
 .main-top {
   display: flex;
   justify-content: space-between;
@@ -137,7 +136,6 @@
   opacity: 0.8;
 }
 
-
 .video-background-container {
   position: fixed;  
   top: 0;
@@ -163,22 +161,49 @@
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-
+/*container do banco*/
 .bd-container {
   display: block;
   width: 100%;
   max-width: 500px;
-  height: 300px;
-  background-color: rgba(67, 69, 221, 0.3);
+  background-color: rgba(8, 9, 77, 0.7);
   border-radius: 12px;
   margin: 20px 0;
+  padding: 15px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
   transition: 0.3s;
-  text-decoration: none;
 }
 
-.bd-container:hover {
-  background-color: rgba(67, 69, 221, 0.6);
-  transform: translateY(-2px);
+.bd-container h2 {
+  margin-bottom: 15px;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.bd-container table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.bd-container th, .bd-container td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.bd-container th {
+  background-color: rgba(67, 69, 221, 0.8);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 6px 6px 0 0;
+}
+
+.bd-container tr:nth-child(even) {
+  background-color: rgba(255,255,255,0.05);
+}
+
+.bd-container tr:hover {
+  background-color: rgba(67, 69, 221, 0.4);
 }
 
 .btn {
@@ -197,7 +222,6 @@
   background-color: #2e3aa5;
 }
 
-/* Responsividade */
 @media (max-width: 800px) {
   .main-top {
     flex-direction: column;
@@ -216,7 +240,7 @@
 
   .bd-container {
     max-width: 90%;
-    height: 150px;
+    height: auto;
   }
 
   .header-logo-text {

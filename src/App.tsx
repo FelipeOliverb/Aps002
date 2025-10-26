@@ -1,25 +1,45 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+// App.tsx
 import { useState } from "react";
 import logo from './assets/imagens/logo.png';
 import fundo from './assets/imagens/fundo.mp4';
-import BD from './pages/bd';
 import './App.css';
 
-function Home() {
-  const [imagem, setImagem] = useState<string | null>(null);
+interface Dado {
+  id: number;
+  nome: string;
+  data: string;
+  imagem: string;
+}
+
+function App() {
+  const [preview, setPreview] = useState<string | null>(null);
+  const [dados, setDados] = useState<Dado[]>([
+    { id: 1, nome: "Img1", data: "2025-10-26", imagem: logo },
+    { id: 2, nome: "Img2", data: "2025-10-25", imagem: logo },
+    { id: 3, nome: "Img3", data: "2025-10-24", imagem: logo },
+  ]);
+
+  const [nomeInput, setNomeInput] = useState("");
 
   function handleImagemSelecionada(event: React.ChangeEvent<HTMLInputElement>) {
     const arquivo = event.target.files?.[0];
     if (arquivo) {
       const urlTemporaria = URL.createObjectURL(arquivo);
-      setImagem(urlTemporaria);
+      setPreview(urlTemporaria);
     }
   }
 
   function confirmarImagem() {
-    alert("Imagem salva");
-    //código para enviar para o banco de dados aqui
-    setImagem(null);
+    if (!preview) return;
+    const novoDado: Dado = {
+      id: dados.length + 1,
+      nome: nomeInput || `Img${dados.length + 1}`,
+      data: new Date().toISOString().split("T")[0], 
+      imagem: preview
+    };
+    setDados([...dados, novoDado]);
+    setPreview(null);
+    setNomeInput("");
   }
 
   return (
@@ -38,18 +58,29 @@ function Home() {
         </header>
 
         <main className="main">
-          <div className="main-top">           
+          <div className="main-top">
             <div className="main-left">
               <div className="upload-container-wrapper">
                 <div className="upload-container">
                   <h3>Adicionar Imagem:</h3>
-                  <input type="file" accept="image/*" onChange={handleImagemSelecionada} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImagemSelecionada}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Nome da Imagem"
+                    value={nomeInput}
+                    onChange={(e) => setNomeInput(e.target.value)}
+                    style={{ marginTop: "10px", padding: "5px", borderRadius: "5px" }}
+                  />
 
-                  {imagem && (
+                  {preview && (
                     <div style={{ marginTop: "20px" }}>
                       <h4>Pré-visualização:</h4>
                       <img
-                        src={imagem}
+                        src={preview}
                         alt="Prévia"
                         style={{
                           maxWidth: "300px",
@@ -59,31 +90,48 @@ function Home() {
                         }}
                       />
                       <div className="preview-buttons">
-                        <button className="btn btn-cancel" onClick={() => setImagem(null)}>Cancelar</button>
+                        <button className="btn btn-cancel" onClick={() => setPreview(null)}>Cancelar</button>
                         <button className="btn btn-confirm" onClick={confirmarImagem}>Confirmar</button>
                       </div>
                     </div>
                   )}
                 </div>
-
-                <div className="ordenacao">
-                  <button className="btn btn-ordena">Ordenar Imagens</button>
-                </div>
-              </div>
-              <div className="Cronometro">
-                <p className="Cronometro-item">Ordenação1 <span>0s</span></p>
-                <p className="Cronometro-item">Ordenação2 <span>0s</span></p>
-                <p className="Cronometro-item">Ordenação3 <span>0s</span></p>
               </div>
             </div>
 
-            
             <div className="main-right">
-              <Link to="/bd" className="bd-container"></Link>
+              <div className="bd-container">
+                <h2>Banco de Dados</h2>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nome</th>
+                      <th>Data</th>
+                      <th>Imagem</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dados.map((item) => (
+                      <tr key={item.id}>
+                        <td>{item.id}</td>
+                        <td>{item.nome}</td>
+                        <td>{item.data}</td>
+                        <td>
+                          <img
+                            src={item.imagem}
+                            alt={item.nome}
+                            style={{ width: '50px', cursor: 'pointer', borderRadius: '5px' }}
+                            onClick={() => window.open(item.imagem, "_blank")}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>  
-
-          
+          </div>
         </main>
 
         <footer className="footer">
@@ -93,17 +141,6 @@ function Home() {
         </footer>
       </div>
     </>
-  );
-}
-
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/bd" element={<BD />} />
-      </Routes>
-    </Router>
   );
 }
 
