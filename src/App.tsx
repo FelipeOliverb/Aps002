@@ -1,5 +1,5 @@
 // App.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from './assets/imagens/logo.png';
 import fundo from './assets/imagens/fundo.mp4';
 import './App.css';
@@ -13,13 +13,33 @@ interface Dado {
 
 function App() {
   const [preview, setPreview] = useState<string | null>(null);
-  const [dados, setDados] = useState<Dado[]>([
-    { id: 1, nome: "Img1", data: "2025-10-26", imagem: logo },
-    { id: 2, nome: "Img2", data: "2025-10-25", imagem: logo },
-    { id: 3, nome: "Img3", data: "2025-10-24", imagem: logo },
-  ]);
-
+  const [dados, setDados] = useState<Dado[]>([]); 
   const [nomeInput, setNomeInput] = useState("");
+
+  async function carregarDadosDoBackend() {
+    try {
+      const response = await fetch("https://apsapi-production.up.railway.app/api/images/info");
+      if (!response.ok) throw new Error("Erro ao buscar dados do backend");
+
+      const jsonData: { id: number; date: string; url: string }[] = await response.json();
+
+      const dadosConvertidos: Dado[] = jsonData.map((item) => ({
+        id: item.id,
+        nome: `Img${item.id}`,
+        data: item.date,
+        imagem: "https://" + item.url
+      }));
+
+      setDados(dadosConvertidos);
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao carregar dados do backend");
+    }
+  }
+
+  useEffect(() => {
+    carregarDadosDoBackend();
+  }, []);
 
   function handleImagemSelecionada(event: React.ChangeEvent<HTMLInputElement>) {
     const arquivo = event.target.files?.[0];
@@ -29,17 +49,49 @@ function App() {
     }
   }
 
+  async function enviarImagemParaAPI(file: File) {
+    try {
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          if (typeof reader.result === "string") {
+            const base64String = reader.result.split(",")[1];
+            resolve(base64String);
+          } else reject("Erro ao ler o arquivo");
+        };
+        reader.onerror = (error) => reject(error);
+      });
+
+      const response = await fetch("https://apsapi-production.up.railway.app/api/images/uploadBase64", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ base64 })
+      });
+
+      const texto = await response.text();
+
+      if (response.ok) {
+        alert("Imagem enviada com sucesso!");
+        setPreview(null);
+        setNomeInput("");
+        carregarDadosDoBackend(); 
+      } else {
+        alert("Erro ao enviar imagem: " + texto);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao processar a imagem.");
+    }
+  }
+
   function confirmarImagem() {
     if (!preview) return;
-    const novoDado: Dado = {
-      id: dados.length + 1,
-      nome: nomeInput || `Img${dados.length + 1}`,
-      data: new Date().toISOString().split("T")[0], 
-      imagem: preview
-    };
-    setDados([...dados, novoDado]);
-    setPreview(null);
-    setNomeInput("");
+
+    const arquivoInput = document.querySelector<HTMLInputElement>("input[type=file]");
+    if (arquivoInput?.files?.[0]) {
+      enviarImagemParaAPI(arquivoInput.files[0]);
+    }
   }
 
   return (
@@ -63,11 +115,7 @@ function App() {
               <div className="upload-container-wrapper">
                 <div className="upload-container">
                   <h3>Adicionar Imagem:</h3>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImagemSelecionada}
-                  />
+                  <input type="file" accept="image/*" onChange={handleImagemSelecionada} />
                   <input
                     type="text"
                     placeholder="Nome da Imagem"
@@ -102,40 +150,42 @@ function App() {
             <div className="main-right">
               <div className="bd-container">
                 <h2>Banco de Dados</h2>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Nome</th>
-                      <th>Data</th>
-                      <th>Imagem</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dados.map((item) => (
-                      <tr key={item.id}>
-                        <td>{item.id}</td>
-                        <td>{item.nome}</td>
-                        <td>{item.data}</td>
-                        <td>
-                          <img
-                            src={item.imagem}
-                            alt={item.nome}
-                            style={{ width: '50px', cursor: 'pointer', borderRadius: '5px' }}
-                            onClick={() => window.open(item.imagem, "_blank")}
-                          />
-                        </td>
+                <div className="bd-table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Data</th>
+                        <th>Imagem</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {dados.map((item) => (
+                        <tr key={item.id}>
+                          <td>{item.id}</td>
+                          <td>{item.nome}</td>
+                          <td>{item.data}</td>
+                          <td>
+                            <img
+                              src={item.imagem}
+                              alt={item.nome}
+                              style={{ width: '50px', cursor: 'pointer', borderRadius: '5px' }}
+                              onClick={() => window.open(item.imagem, "_blank")}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </main>
 
         <footer className="footer">
-          <p>APS - 2025/2026</p>
+          <p>APS - 2025/2</p>
           <p>Felipe de Oliveira Barbosa</p>
           <p>Pedro Augusto Miranda de Souza</p>
         </footer>

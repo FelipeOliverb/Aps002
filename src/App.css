@@ -173,6 +173,15 @@
   box-shadow: 0 0 15px rgba(0,0,0,0.5);
   transition: 0.3s;
 }
+.bd-table-wrapper {
+  max-height: 300px;  /* define altura fixa */
+  overflow-y: auto;   /* habilita scrollbar vertical */
+  border: 1px solid rgba(255,255,255,0.2); /* opcional, pra contorno */
+  border-radius: 8px;
+  padding: 5px;
+  background-color: rgba(8, 9, 77, 0.5); /* mantém estilo parecido com o container */
+}
+
 
 .bd-container h2 {
   margin-bottom: 15px;
