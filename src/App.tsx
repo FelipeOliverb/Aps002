@@ -16,11 +16,34 @@ function App() {
   const [dados, setDados] = useState<Dado[]>([]); 
   const [nomeInput, setNomeInput] = useState("");
 
+
+
+  // ✅ ADICIONADO: estado de loading
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // ✅ ADICIONADO: função que pinga a API até responder OK
+  async function waitForBackend() {
+    while (true) {
+      try {
+        const response = await fetch("https://apsapi-production.up.railway.app/api/images/testConnection");
+        if (response.ok) {
+          console.log("Backend OK!");
+          break;
+        }
+      } catch {
+        console.warn("Backend ainda indisponível, tentando novamente em 2...");
+      }
+      await new Promise(res => setTimeout(res, 2000)); // espera 1s antes de tentar novamente
+    }
+  }
+
+  // ✅ ALTERADO: carregar dados espera o backend estar OK
   async function carregarDadosDoBackend() {
+    setLoading(true);
+    await waitForBackend(); // espera backend disponível
     try {
       const response = await fetch("https://apsapi-production.up.railway.app/api/images/info");
-      if (!response.ok) throw new Error("Erro ao buscar dados do backend");
-
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const jsonData: { id: number; date: string; url: string }[] = await response.json();
 
       const dadosConvertidos: Dado[] = jsonData.map((item) => ({
@@ -34,8 +57,11 @@ function App() {
     } catch (err) {
       console.error(err);
       alert("Erro ao carregar dados do backend");
+    } finally {
+      setLoading(false);
     }
   }
+
 
   useEffect(() => {
     carregarDadosDoBackend();
@@ -168,21 +194,29 @@ function App() {
                       </tr>
                     </thead>
                     <tbody>
-                      {dados.map((item) => (
-                        <tr key={item.id}>
-                          <td>{item.id}</td>
-                          <td>{item.nome}</td>
-                          <td>{item.data}</td>
-                          <td>
-                            <img
-                              src={item.imagem}
-                              alt={item.nome}
-                              style={{ width: '50px', cursor: 'pointer', borderRadius: '5px' }}
-                              onClick={() => window.open(item.imagem, "_blank")}
-                            />
-                          </td>
+                      {/* ✅ ADICIONADO: mostra mensagem de carregando enquanto o backend não responde */}
+                      {loading ? (
+                        <tr>
+                          <td colSpan={4} style={{ textAlign: "center" }}>Carregando imagens...</td>
                         </tr>
-                      ))}
+                      ) : (
+                        dados.map((item) => (
+                          <tr key={item.id}>
+                            <td>{item.id}</td>
+                            <td>{item.nome}</td>
+                            <td>{item.data}</td>
+                            <td>
+                              <img
+                                src={item.imagem}
+                                alt={item.nome}
+                                onError={(e) => { e.currentTarget.src = logo; }}
+                                style={{ width: '50px', cursor: 'pointer', borderRadius: '5px' }}
+                                onClick={() => window.open(item.imagem, "_blank")}
+                              />
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </div>
