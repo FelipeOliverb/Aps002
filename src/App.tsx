@@ -19,9 +19,9 @@ function App() {
   const [quickTime, setQuickTime] = useState<number>(0);
   const [mergeTime, setMergeTime] = useState<number>(0);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // @ts-ignore
   const REMOTO = "https://apsapi-production.up.railway.app/";
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // @ts-ignore
   const LOCAL = "http://localhost:8080/";
 
   const BASE_URL = REMOTO;
