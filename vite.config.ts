@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react-swc'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/NOME-DO-REPOSITORIO/',
-  plugins: [react()], 
+  base: '/Aps002/',
+  plugins: [react()],
   server: {
     port: 3000
   }
