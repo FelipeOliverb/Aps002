@@ -13,19 +13,25 @@ interface Dado {
 
 function App() {
   const [preview, setPreview] = useState<string | null>(null);
-  const [dados, setDados] = useState<Dado[]>([]); 
-  const [nomeInput, setNomeInput] = useState("");
+  const [dados, setDados] = useState<Dado[]>([]);
 
+  const [bubbleTime, setBubbleTime] = useState<number>(0);
+  const [quickTime, setQuickTime] = useState<number>(0);
+  const [mergeTime, setMergeTime] = useState<number>(0);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const REMOTO = "https://apsapi-production.up.railway.app/";
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const LOCAL = "http://localhost:8080/";
 
-  // ✅ ADICIONADO: estado de loading
+  const BASE_URL = REMOTO;
+
   const [loading, setLoading] = useState<boolean>(true);
 
-  // ✅ ADICIONADO: função que pinga a API até responder OK
   async function waitForBackend() {
     while (true) {
       try {
-        const response = await fetch("https://apsapi-production.up.railway.app/api/images/testConnection");
+        const response = await fetch(BASE_URL + "api/images/testConnection");
         if (response.ok) {
           console.log("Backend OK!");
           break;
@@ -37,30 +43,39 @@ function App() {
     }
   }
 
-  // ✅ ALTERADO: carregar dados espera o backend estar OK
-  async function carregarDadosDoBackend() {
-    setLoading(true);
-    await waitForBackend(); // espera backend disponível
-    try {
-      const response = await fetch("https://apsapi-production.up.railway.app/api/images/info");
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const jsonData: { id: number; date: string; url: string }[] = await response.json();
 
-      const dadosConvertidos: Dado[] = jsonData.map((item) => ({
-        id: item.id,
-        nome: `Img${item.id}`,
-        data: item.date,
-        imagem: "https://" + item.url
-      }));
+// ... dentro da função carregarDadosDoBackend:
+async function carregarDadosDoBackend() {
+  setLoading(true);
+  await waitForBackend();
+  try {
+    const response = await fetch(BASE_URL + "api/images/info/sorted");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const jsonData: { 
+      times: { quick: number; bubble: number; merge: number }; 
+      sortedList: { id: number; date: string; url: string; sortId: number }[] 
+    } = await response.json();
 
-      setDados(dadosConvertidos);
-    } catch (err) {
-      console.error(err);
-      alert("Erro ao carregar dados do backend");
-    } finally {
-      setLoading(false);
-    }
+    // Atualiza os cronômetros com os valores do JSON
+    setBubbleTime(jsonData.times.bubble);
+    setQuickTime(jsonData.times.quick);
+    setMergeTime(jsonData.times.merge);
+
+    const dadosConvertidos: Dado[] = jsonData.sortedList.map((item) => ({
+      id: item.id,
+      nome: `Img${item.id}`,
+      data: item.date,
+      imagem: "https://" + item.url
+    }));
+
+    setDados(dadosConvertidos);
+  } catch (err) {
+    console.error(err);
+    alert("Erro ao carregar dados do backend");
+  } finally {
+    setLoading(false);
   }
+}
 
 
   useEffect(() => {
@@ -89,7 +104,7 @@ function App() {
         reader.onerror = (error) => reject(error);
       });
 
-      const response = await fetch("https://apsapi-production.up.railway.app/api/images/uploadBase64", {
+      const response = await fetch(BASE_URL + "api/images/uploadBase64", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ base64 })
@@ -100,7 +115,6 @@ function App() {
       if (response.ok) {
         alert("Imagem enviada com sucesso!");
         setPreview(null);
-        setNomeInput("");
         carregarDadosDoBackend(); 
       } else {
         alert("Erro ao enviar imagem: " + texto);
@@ -145,18 +159,11 @@ function App() {
                   
                   <h3>Adicionar Imagem:</h3>
                   <input type="file" accept="image/*" onChange={handleImagemSelecionada} />
-                  <input
-                    type="text"
-                    placeholder="Nome da Imagem"
-                    value={nomeInput}
-                    onChange={(e) => setNomeInput(e.target.value)}
-                    style={{ marginTop: "10px", padding: "5px", borderRadius: "5px" }}
-                  />
-                  <div className="Cronometro">
-                    <p className="Cronometro-item">Ordenação 1 <span>0s</span></p>
-                    <p className="Cronometro-item">Ordenação 2 <span>0s</span></p>
-                    <p className="Cronometro-item">Ordenação 3 <span>0s</span></p>
-                  </div>
+                 <div className="Cronometro">
+                  <p className="Cronometro-item">Bubble <span>{bubbleTime}s</span></p>
+                  <p className="Cronometro-item">Quick <span>{quickTime}s</span></p>
+                  <p className="Cronometro-item">Merge <span>{mergeTime}s</span></p>
+                </div>
                   {preview && (
                     <div style={{ marginTop: "20px" }}>
                       <h4>Pré-visualização:</h4>
@@ -194,7 +201,6 @@ function App() {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* ✅ ADICIONADO: mostra mensagem de carregando enquanto o backend não responde */}
                       {loading ? (
                         <tr>
                           <td colSpan={4} style={{ textAlign: "center" }}>Carregando imagens...</td>
