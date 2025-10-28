@@ -134,6 +134,24 @@ async function carregarDadosDoBackend() {
     }
   }
 
+  async function deletarImagem(id: number) {
+  try {
+    const response = await fetch(`https://apsapi-production.up.railway.app/api/images/${id}`, {
+      method: "DELETE"
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro ao deletar imagem (status ${response.status})`);
+    }
+
+    console.log("Imagem deletada com sucesso!");
+  } catch (error) {
+    console.error("Erro:", error);
+  }
+  }
+
+  
+
   return (
     <>
       <div className="video-background-container">
@@ -197,7 +215,7 @@ async function carregarDadosDoBackend() {
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Data</th>
-                        <th>Opções</th>
+                        <th>Imagem</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -214,7 +232,12 @@ async function carregarDadosDoBackend() {
                             <td>
                               <div className="button-container">
                                 <button className="btn btn-view" onClick={() => window.open(item.imagem, "_blank")}>Ver</button>
-                                <button className="btn btn-delete" /*onClick={código para deletar}*/>Excluir</button>
+                                <button className="btn btn-delete" onClick={async () => {
+                                    if (window.confirm(`Deseja realmente excluir a imagem ${item.nome}?`)) {
+                                      await deletarImagem(item.id);
+                                      carregarDadosDoBackend(); // Atualiza a tabela
+                                    }
+                                  }}>Excluir</button>
                               </div>
                             </td>
                           </tr>
