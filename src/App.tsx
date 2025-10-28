@@ -9,6 +9,7 @@ interface Dado {
   nome: string;
   data: string;
   imagem: string;
+  Sort_ID: number;
 }
 
 function App() {
@@ -65,7 +66,8 @@ async function carregarDadosDoBackend() {
       id: item.id,
       nome: `Img${item.id}`,
       data: item.date,
-      imagem: "https://" + item.url
+      imagem: "https://" + item.url,
+      Sort_ID: item.sortId
     }));
 
     setDados(dadosConvertidos);
@@ -212,10 +214,11 @@ async function carregarDadosDoBackend() {
                   <table>
                     <thead>
                       <tr>
-                        <th>ID</th>
+                        <th>ID</th>                       
                         <th>Nome</th>
                         <th>Data</th>
                         <th>Opções</th>
+                        <th>Sort_ID</th>
                       </tr>
                     </thead>
                     <tbody>

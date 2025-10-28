@@ -226,6 +226,22 @@
   transition: 0.3s;
 }
 
+.btn-delete {
+  background-color: #771c1c;
+  width: 75px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+}
+
+.btn-view {
+  background-color: #2d772d;
+  width: 75px;
+  text-align: center;
+  justify-content: center;
+  display: flex;  
+}
+
 .btn:hover {
   transform: translateY(-3px);
   background-color: #2e3aa5;
@@ -248,7 +264,8 @@
   }
 
   .bd-container {
-    max-width: 90%;
+    width: 100%;
+    max-width: 100%;
     height: auto;
   }
 
