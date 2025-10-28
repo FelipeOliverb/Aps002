@@ -54,7 +54,7 @@ async function carregarDadosDoBackend() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const jsonData: { 
       times: { quick: number; bubble: number; merge: number }; 
-      sortedList: { id: number; date: string; url: string; sortId: number }[] 
+      sortedList: { id: number; date: string; sortId: number }[] 
     } = await response.json();
 
     // Atualiza os cronômetros com os valores do JSON
@@ -66,7 +66,7 @@ async function carregarDadosDoBackend() {
       id: item.id,
       nome: `Img${item.id}`,
       data: item.date,
-      imagem: "https://" + item.url,
+      imagem: BASE_URL + "api/images/" + item.id,
       Sort_ID: item.sortId
     }));
 
@@ -243,6 +243,7 @@ async function carregarDadosDoBackend() {
                                   }}>Excluir</button>
                               </div>
                             </td>
+                            <td>{item.Sort_ID}</td>
                           </tr>
                         ))
                       )}
