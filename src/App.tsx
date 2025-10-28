@@ -160,9 +160,9 @@ async function carregarDadosDoBackend() {
                   <h3>Adicionar Imagem:</h3>
                   <input type="file" accept="image/*" onChange={handleImagemSelecionada} />
                  <div className="Cronometro">
-                  <p className="Cronometro-item">Bubble <span>{bubbleTime}s</span></p>
-                  <p className="Cronometro-item">Quick <span>{quickTime}s</span></p>
-                  <p className="Cronometro-item">Merge <span>{mergeTime}s</span></p>
+                  <p className="Cronometro-item">Bubble <span>{bubbleTime}ms</span></p>
+                  <p className="Cronometro-item">Quick <span>{quickTime}ms</span></p>
+                  <p className="Cronometro-item">Merge <span>{mergeTime}ms</span></p>
                 </div>
                   {preview && (
                     <div style={{ marginTop: "20px" }}>
