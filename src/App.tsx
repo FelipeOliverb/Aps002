@@ -212,13 +212,10 @@ async function carregarDadosDoBackend() {
                             <td>{item.nome}</td>
                             <td>{item.data}</td>
                             <td>
-                              <img
-                                src={item.imagem}
-                                alt={item.nome}
-                                onError={(e) => { e.currentTarget.src = logo; }}
-                                style={{ width: '50px', cursor: 'pointer', borderRadius: '5px' }}
-                                onClick={() => window.open(item.imagem, "_blank")}
-                              />
+                              <div className="button-container">
+                                <button className="btn btn-view" onClick={() => window.open(item.imagem, "_blank")}>Ver</button>
+                                <button className="btn btn-delete" /*onClick={código para deletar}*/>Excluir</button>
+                              </div>
                             </td>
                           </tr>
                         ))
