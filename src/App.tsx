@@ -215,7 +215,7 @@ async function carregarDadosDoBackend() {
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Data</th>
-                        <th>Imagem</th>
+                        <th>Opções</th>
                       </tr>
                     </thead>
                     <tbody>
